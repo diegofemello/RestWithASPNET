@@ -1,5 +1,5 @@
 ﻿using RestWithASPNET.Model;
-using RestWithASPNET.Repository.Implementations;
+using RestWithASPNET.Repository;
 using System.Collections.Generic;
 
 namespace RestWithASPNET.Business.Implementations
@@ -7,9 +7,9 @@ namespace RestWithASPNET.Business.Implementations
     public class PersonBusinessImplementation : IPersonBusiness
     {
 
-        private readonly IPersonRepository _repository;
+        private readonly IRepository<Person> _repository;
 
-        public PersonBusinessImplementation(IPersonRepository repository)
+        public PersonBusinessImplementation(IRepository<Person> repository)
         {
             _repository = repository;
         }

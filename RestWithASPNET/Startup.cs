@@ -6,11 +6,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RestWithASPNET.Model.Context;
 using RestWithASPNET.Business.Implementations;
-using Pomelo.EntityFrameworkCore.MySql;
 using System;
-using System.Collections.Generic;
 using RestWithASPNET.Business;
-using RestWithASPNET.Repository.Implementations;
+using Serilog;
+using MySqlConnector;
+using System.Collections.Generic;
+using RestWithASPNET.Repository.Generic;
+using RestWithASPNET.Repository;
 
 namespace RestWithASPNET
 {
@@ -22,31 +24,43 @@ namespace RestWithASPNET
         {
             Configuration = configuration;
             Environment = environment;
+
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .CreateLogger();
         }
 
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddControllers();
 
-            var connectionString = Configuration["MySQLConnection:MySQLConnectionString"];
+            var connection = Configuration["MySQLConnection:MySQLConnectionString"];
+
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 25));
 
             services.AddDbContext<MySQLContext>(
             dbContextOptions => dbContextOptions
-                .UseMySql(connectionString, serverVersion)
-                .EnableSensitiveDataLogging() // <-- These two calls are optional but help
-                .EnableDetailedErrors()       // <-- with debugging (remove for production).
+                .UseMySql(connection, serverVersion)
             );
 
-            // Versioning API
+            if (Environment.IsDevelopment())
+            {
+                MigrateDatabase(connection);
+            }
+            //Versioning API
             services.AddApiVersioning();
 
             // Dependency Injection
             services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
-            services.AddScoped<IPersonRepository, PersonRepositoryImplementation>();
+            services.AddScoped<IBookBusiness, BookBusinessImplementation>();
+
+            services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
         }
+
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -66,6 +80,27 @@ namespace RestWithASPNET
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private void MigrateDatabase(string connection)
+        {
+            try
+            {
+                var evolveconnection = new MySqlConnection(connection);
+
+                var evolve = new Evolve.Evolve(evolveconnection, msg => Log.Information(msg))
+                {
+                    Locations = new List<string> { "db/migrations", "db/dataset" },
+                    IsEraseDisabled = true,
+                };
+
+                evolve.Migrate();
+            }
+            catch (Exception ex)
+            {
+                Log.Error("database migration failed", ex);
+                throw;
+            }
         }
     }
 }

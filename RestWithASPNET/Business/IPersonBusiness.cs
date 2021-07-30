@@ -1,9 +1,9 @@
 ﻿using RestWithASPNET.Model;
 using System.Collections.Generic;
 
-namespace RestWithASPNET.Services.Implementations
+namespace RestWithASPNET.Business
 {
-    public interface IPersonService
+    public interface IPersonBusiness
     {
         Person Create(Person person);
         Person FindByID(long id);

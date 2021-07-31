@@ -19,4 +19,5 @@ namespace RestWithASPNET.Model
         [Column("launch_date")]
         public DateTime LaunchDate { get; set; }
     }
+
 }

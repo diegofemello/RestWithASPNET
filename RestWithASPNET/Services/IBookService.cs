@@ -1,9 +1,9 @@
 ﻿using RestWithASPNET.Data.VO;
 using System.Collections.Generic;
 
-namespace RestWithASPNET.Business
+namespace RestWithASPNET.Services
 {
-    public interface IBookBusiness
+    public interface IBookService
     {
         BookVO Create(BookVO book);
         BookVO FindByID(long id);

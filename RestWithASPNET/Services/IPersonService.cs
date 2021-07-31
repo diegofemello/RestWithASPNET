@@ -1,9 +1,9 @@
 ﻿using RestWithASPNET.Data.VO;
 using System.Collections.Generic;
 
-namespace RestWithASPNET.Business
+namespace RestWithASPNET.Services
 {
-    public interface IPersonBusiness
+    public interface IPersonService
     {
         PersonVO Create(PersonVO person);
         PersonVO FindByID(long id);

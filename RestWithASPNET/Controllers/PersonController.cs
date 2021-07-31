@@ -33,7 +33,7 @@ namespace RestWithASPNET.Controllers
             if (person == null) return NotFound();
             return Ok(person);
         }
-        
+
         [HttpPost]
         public IActionResult Create([FromBody] PersonVO person)
         {

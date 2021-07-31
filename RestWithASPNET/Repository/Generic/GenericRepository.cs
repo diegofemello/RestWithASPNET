@@ -9,9 +9,8 @@ namespace RestWithASPNET.Repository.Generic
 {
     public class GenericRepository<T> : IRepository<T> where T : BaseEntity
     {
-        private MySQLContext _context;
-
-        private DbSet<T> dataset;
+        private readonly MySQLContext _context;
+        private readonly DbSet<T> dataset;
 
         public GenericRepository(MySQLContext context)
         {
@@ -28,7 +27,6 @@ namespace RestWithASPNET.Repository.Generic
         {
             return dataset.SingleOrDefault(p => p.Id.Equals(id));
         }
-
 
         public T Create(T item)
         {
@@ -60,7 +58,7 @@ namespace RestWithASPNET.Repository.Generic
                     throw;
                 }
             }
-            else 
+            else
             {
                 return null;
             }
@@ -83,7 +81,6 @@ namespace RestWithASPNET.Repository.Generic
                 }
             }
         }
-
         public bool Exists(long id)
         {
             return _context.Persons.Any(p => p.Id.Equals(id));

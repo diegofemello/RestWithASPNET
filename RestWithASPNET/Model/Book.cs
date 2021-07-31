@@ -18,6 +18,10 @@ namespace RestWithASPNET.Model
 
         [Column("launch_date")]
         public DateTime LaunchDate { get; set; }
-    }
 
+        internal object Select(Func<object, object> p)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

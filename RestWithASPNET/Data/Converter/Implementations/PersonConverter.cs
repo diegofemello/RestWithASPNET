@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace RestWithASPNET.Data.Converter.Implementations
 {
-    public class PersonConverter : IParser<PersonVO, Person>, IParser<Person, PersonVO>,
+    public class PersonConverter : IParser<PersonVO, Person>, IParser<Person, PersonVO>
     {
         public Person Parse(PersonVO origin)
         {

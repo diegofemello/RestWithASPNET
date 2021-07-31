@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RestWithASPNET.Model;
 using RestWithASPNET.Business;
+using RestWithASPNET.Data.VO;
 
 namespace RestWithASPNET.Controllers
 {
@@ -13,6 +13,7 @@ namespace RestWithASPNET.Controllers
 
         private readonly ILogger<PersonController> _logger;
         private IPersonBusiness _personBusiness;
+
         public PersonController(ILogger<PersonController> logger, IPersonBusiness personService)
         {
             _logger = logger;
@@ -34,14 +35,14 @@ namespace RestWithASPNET.Controllers
         }
         
         [HttpPost]
-        public IActionResult Create([FromBody] Person person)
+        public IActionResult Create([FromBody] PersonVO person)
         {
             if (person == null) return BadRequest();
             return Ok(_personBusiness.Create(person));
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] Person person)
+        public IActionResult Update([FromBody] PersonVO person)
         {
             if (person == null) return BadRequest();
             return Ok(_personBusiness.Update(person));

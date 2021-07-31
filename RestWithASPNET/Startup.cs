@@ -13,6 +13,8 @@ using MySqlConnector;
 using System.Collections.Generic;
 using RestWithASPNET.Repository.Generic;
 using RestWithASPNET.Repository;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace RestWithASPNET
 {
@@ -53,6 +55,22 @@ namespace RestWithASPNET
             //Versioning API
             services.AddApiVersioning();
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1",
+                    new OpenApiInfo
+                    {
+                        Title = "REST API WITH ASP.NET CORE 5",
+                        Version = "v1",
+                        Description = "API RESTful developed in course.",
+                        Contact = new OpenApiContact
+                        {
+                            Name = "Diego Mello",
+                            Url = new Uri("https://github.com/diegofemello")
+                        }
+                    });
+            });
+
             // Dependency Injection
             services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
             services.AddScoped<IBookBusiness, BookBusinessImplementation>();
@@ -73,6 +91,17 @@ namespace RestWithASPNET
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "REST API - v1");
+            });
+
+            var option = new RewriteOptions();
+            option.AddRedirect("^$","swagger");
+            app.UseRewriter(option);
 
             app.UseAuthorization();
 

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace RestWithASPNET.Repository.Generic
 {
-    public class GenericRepository<T> : IPersonRepository<T> where T : BaseEntity
+    public class GenericRepository<T> : IRepository<T> where T : BaseEntity
     {
         protected MySQLContext _context;
 

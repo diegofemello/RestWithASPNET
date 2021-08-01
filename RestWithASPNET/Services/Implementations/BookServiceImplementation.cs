@@ -9,11 +9,11 @@ namespace RestWithASPNET.Services.Implementations
     public class BookServiceImplementation : IBookService
     {
 
-        private readonly IRepository<Book> _repository;
+        private readonly IPersonRepository<Book> _repository;
 
         private readonly BookConverter _converter;
 
-        public BookServiceImplementation(IRepository<Book> repository)
+        public BookServiceImplementation(IPersonRepository<Book> repository)
         {
             _repository = repository;
             _converter = new BookConverter();

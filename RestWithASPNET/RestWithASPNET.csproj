@@ -8,6 +8,7 @@
 		<Folder Include="db\dataset\" />
 		<Folder Include="db\migrations\" />
 		<Folder Include="Model\Script\" />
+		<Folder Include="UploadDir\" />
 	</ItemGroup>
 
 	<ItemGroup>

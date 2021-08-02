@@ -9,11 +9,11 @@ using System.Text;
 
 namespace RestWithASPNET.Services.Implementations
 {
-    public class TokenService : ITokenService
+    public class TokenServiceImplementation : ITokenService
     {
         private TokenConfiguration _configuration;
 
-        public TokenService(TokenConfiguration configuration)
+        public TokenServiceImplementation(TokenConfiguration configuration)
         {
             _configuration = configuration;
         }

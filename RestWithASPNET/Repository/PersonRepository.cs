@@ -2,6 +2,7 @@
 using RestWithASPNET.Model.Context;
 using RestWithASPNET.Repository.Generic;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace RestWithASPNET.Repository
@@ -29,6 +30,50 @@ namespace RestWithASPNET.Repository
                 }
             }
             return user;
+        }
+
+        public List<Person> FindByName(string firstName, string lastName)
+        {
+            var stringFirst = string.IsNullOrWhiteSpace(firstName);
+            var stringLast = string.IsNullOrWhiteSpace(lastName);
+
+
+            if (!stringFirst && !stringLast)
+            {
+                return _context.Persons.Where(
+                    p => p.FirstName.Contains(firstName) &&
+                    p.LastName.Contains(lastName)).ToList();
+            }
+            else if (stringFirst && !stringLast)
+            {
+                return _context.Persons.Where(
+                    p => p.LastName.Contains(lastName)).ToList();
+            }
+            else if (!stringFirst && stringLast)
+            {
+                return _context.Persons.Where(
+                    p => p.FirstName.Contains(firstName)).ToList();
+            }
+            return null;
+
+            //if (!string.IsNullOrWhiteSpace(firstName) && !string.IsNullOrWhiteSpace(lastName))
+            //{
+            //    return _context.Persons.Where(
+            //        p => p.FirstName.Contains(firstName) &&
+            //        p.LastName.Contains(lastName)).ToList();
+            //}
+            //else if (string.IsNullOrWhiteSpace(firstName) && !string.IsNullOrWhiteSpace(lastName))
+            //{
+            //    return _context.Persons.Where(
+            //        p => p.LastName.Contains(lastName)).ToList();
+            //}
+            //else if (!string.IsNullOrWhiteSpace(firstName) && string.IsNullOrWhiteSpace(lastName))
+            //{
+            //    return _context.Persons.Where(
+            //        p => p.FirstName.Contains(firstName)).ToList();
+            //}
+            //return null;
+
         }
     }
 }

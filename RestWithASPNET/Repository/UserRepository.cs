@@ -1,6 +1,7 @@
 ﻿using RestWithASPNET.Data.VO;
 using RestWithASPNET.Model;
 using RestWithASPNET.Model.Context;
+using RestWithASPNET.Repository.Generic;
 using System;
 using System.Linq;
 using System.Security.Cryptography;
@@ -8,14 +9,9 @@ using System.Text;
 
 namespace RestWithASPNET.Repository
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : GenericRepository<User>, IUserRepository
     {
-        private readonly MySQLContext _context;
-
-        public UserRepository(MySQLContext context)
-        {
-            _context = context;
-        }
+        public UserRepository(MySQLContext context) : base(context) { }
 
         public User ValidateCredentials(UserVO user)
         {

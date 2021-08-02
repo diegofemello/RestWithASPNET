@@ -120,6 +120,7 @@ namespace RestWithASPNET
 
             // Dependency Injection
             services.AddScoped<IPersonService, PersonServiceImplementation>();
+            services.AddScoped<IUserService, UserServiceImplementation>();
             services.AddScoped<IBookService, BookServiceImplementation>();
             services.AddScoped<ILoginService, LoginServiceImplementation>();
 

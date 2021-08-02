@@ -1,6 +1,5 @@
 ﻿using RestWithASPNET.Data.Converter.Implementations;
 using RestWithASPNET.Data.VO;
-using RestWithASPNET.Model;
 using RestWithASPNET.Repository;
 using System.Collections.Generic;
 
@@ -28,6 +27,10 @@ namespace RestWithASPNET.Services.Implementations
         {
             return _converter.Parse(_repository.FindByID(id));
         }
+        public List<PersonVO> FindByName(string firstName, string lastName)
+        {
+            return _converter.Parse(_repository.FindByName(firstName, lastName));
+        }
 
         public PersonVO Create(PersonVO person)
         {
@@ -52,5 +55,7 @@ namespace RestWithASPNET.Services.Implementations
         {
             _repository.Delete(id);
         }
+
+        
     }
 }

@@ -7,6 +7,8 @@ namespace RestWithASPNET.Model
     [Table("users")]
     public class User : BaseEntity
     {
+        internal object _context;
+
         [Column("user_name")]
         public string UserName { get; set; }
 

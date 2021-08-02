@@ -11,8 +11,12 @@ namespace RestWithASPNET.Repository
 {
     public class UserRepository : GenericRepository<User>, IUserRepository
     {
-        public UserRepository(MySQLContext context) : base(context) { }
+        
 
+        public UserRepository(MySQLContext context) : base(context) {
+            _context = context;
+        }
+        
         public User ValidateCredentials(UserVO user)
         {
             var pass = ComputeHash(user.Password, new SHA256CryptoServiceProvider());

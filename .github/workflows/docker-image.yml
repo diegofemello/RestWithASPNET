@@ -26,4 +26,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: diegofemello/rest-with-asp-net:${{ github.ref }}
+          tags: |
+            diegofemello/rest-with-asp-net:latest
+            diegofemello/rest-with-asp-net-db:latest
+          

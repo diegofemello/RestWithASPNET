@@ -111,7 +111,7 @@ namespace RestWithASPNET
                     {
                         Title = "REST API WITH ASP.NET CORE 5",
                         Version = "v1",
-                        Description = "API RESTful developed in course.",
+                        Description = "API RESTful.",
                         Contact = new OpenApiContact
                         {
                             Name = "Diego Mello",
@@ -180,7 +180,7 @@ namespace RestWithASPNET
 
             app.UseSwaggerUI(c => {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json",
-                    "REST API's From 0 to Azure with ASP.NET Core 5 and Docker - v1");
+                    "REST API JSON - v1");
             });
 
             var option = new RewriteOptions();

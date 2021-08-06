@@ -1,0 +1,39 @@
+name: Continuoous Integration with Github Actions
+
+on:
+  [push]
+  
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Checkout repository
+        uses: Azure/docker-login@v1
+        with:
+          username: ${{ secrets.DOCKER_AZURE_USERNAME }}
+          password: ${{ secrets.DOCKER_AZURE_PASSWORD }}
+          login-server: ${{ secrets.DOCKER_AZURE_CONTAINER_REGISTRY }}
+      
+      - name: Build Images
+        working-directory: ./RestWithASPNET
+        run: docker-compose build
+        
+      - name: Push to Azure Container Registry
+        run: |
+          docker tag ${{ secrets.IMAGE_NAME }}:latest ${{ secrets.DOCKER_AZURE_CONTAINER_REGISTRY }}/${{ secrets.IMAGE_NAME }}:${{github.run_id}}
+          docker push ${{ secrets.DOCKER_AZURE_CONTAINER_REGISTRY }}/${{ secrets.IMAGE_NAME }}:${{github.run_id}}
+
+      - name: Login in Azure to Deployment
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
+      - name: Azure WebApp Container - Application Deployment
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: diego-api-server
+          images: ${{ secrets.DOCKER_AZURE_CONTAINER_REGISTRY }}/${{ secrets.IMAGE_NAME }}:${{github.run_id}}
